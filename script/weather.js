@@ -19,6 +19,16 @@ $(document).ready(function(){
 			
 			$("#wind-info").text(data["wind"]["speed"] + " mph " + convertDegreesToDirection(data["wind"]["deg"]));
 			
+			var weatherDescription = data["weather"][0]["main"];
+			
+			if(weatherDescription.toLowerCase().indexOf("rain") >= 0){
+				$("body").css("background-image", "url(images/rain.jpg)");
+			}else if(weatherDescription.toLowerCase().indexOf("cloud") >= 0){
+				$("body").css("background-image", "url(images/cloudy.jpg)");
+			}else if(weatherDescription.toLowerCase().indexOf("sun") >= 0){
+				$("body").css("background-image", "url(images/sunny.jpg)")
+			}
+			
 		});
 		var googleJSON = $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=" + "AIzaSyAdK12U8IEM2GsHQpQUmadq4Ws5a_Ah0ko", function (data) {
 				
