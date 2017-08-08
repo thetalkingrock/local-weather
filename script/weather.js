@@ -1,5 +1,26 @@
 $(document).ready(function(){
 	
+	$("#degree-type").click(function(){
+		
+		var currentDegreeType = $("#degree-type").text();
+		console.log(currentDegreeType);
+		var currentTemp = Number($("#temp").text());
+		$("#temp-container").fadeTo(500, 0, function(){
+			if(currentDegreeType === "C"){
+				var newTemp = currentTemp * 1.8 + 32;
+				$("#temp").text(newTemp);
+				$("#degree-type").text("F");
+			}else if(currentDegreeType === "F"){
+				var newTemp = (currentTemp - 32) / 1.8
+				$("#temp").text(newTemp);
+				$("#degree-type").text("C");
+			}
+			
+			$("#temp-container").fadeTo(500, 1);
+		});
+		
+	});	
+	
 	if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(gotLocation, displayErrorMessage);
 	}else{
@@ -11,7 +32,7 @@ $(document).ready(function(){
 		var latitude = position.coords.latitude;
 		var codeCampJSON = $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + latitude
 		 + "&lon=" + longitude, function (data) {
-			$("#temp").text(Math.round(data["main"]["temp"]) + $("#temp").text() + " ");
+			$("#temp").text(Math.round(data["main"]["temp"]) + $("#temp").text());
 			
 			$("#weather").text(data["weather"][0]["main"]);
 			
