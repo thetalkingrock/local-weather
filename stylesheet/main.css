@@ -7,9 +7,14 @@ body{
 	visibility: hidden;
 }
 
-#city-and-temp h3{
+#city-name{
 	
 	margin-top: 5%;
 	font-size: 300%;
 	
+}
+
+#temp-container{
+	margin-top: 3%;
+	font-size: 200%;
 }
