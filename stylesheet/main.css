@@ -3,6 +3,13 @@ body{
 	color: white;
 }
 
-.text-center{
+#main-container{
 	visibility: hidden;
+}
+
+#city-and-temp h3{
+	
+	margin-top: 5%;
+	font-size: 300%;
+	
 }
