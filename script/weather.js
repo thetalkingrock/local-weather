@@ -1,17 +1,19 @@
 $(document).ready(function(){
 	
+	//convert degrees in celsius to degrees in fahrenheit and vice versa
 	$("#degree-type").click(function(){
 		
 		var currentDegreeType = $("#degree-type").text();
 		console.log(currentDegreeType);
 		var currentTemp = Number($("#temp").text());
 		$("#temp-container").fadeTo(500, 0, function(){
+			
 			if(currentDegreeType === "C"){
-				var newTemp = currentTemp * 1.8 + 32;
+				var newTemp = Math.floor(currentTemp * 1.8 + 32);
 				$("#temp").text(newTemp);
 				$("#degree-type").text("F");
 			}else if(currentDegreeType === "F"){
-				var newTemp = (currentTemp - 32) / 1.8
+				var newTemp = Math.floor((currentTemp - 32) / 1.8);
 				$("#temp").text(newTemp);
 				$("#degree-type").text("C");
 			}
@@ -20,18 +22,19 @@ $(document).ready(function(){
 		});
 		
 	});	
-	
+	//retrieve user's location
 	if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(gotLocation, displayErrorMessage);
 	}else{
 		displayErrorMessage();
 	}
-	
+	//if able to access user's location, this function is called and updates page with information about the local weather
 	function gotLocation(position){
 		var longitude = position.coords.longitude;
 		var latitude = position.coords.latitude;
-		var codeCampJSON = $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + latitude
+		$.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + latitude
 		 + "&lon=" + longitude, function (data) {
+			
 			$("#temp").text(Math.round(data["main"]["temp"]) + $("#temp").text());
 			
 			$("#weather").text(data["weather"][0]["main"]);
@@ -41,7 +44,7 @@ $(document).ready(function(){
 			$("#wind-info").text(data["wind"]["speed"] + " mph " + convertDegreesToDirection(data["wind"]["deg"]));
 			
 			var weatherDescription = data["weather"][0]["main"];
-			
+			//update background image depending on weather
 			if(weatherDescription.toLowerCase().indexOf("rain") >= 0){
 				$("body").css("background-image", "url(images/rain.jpg)");
 			}else if(weatherDescription.toLowerCase().indexOf("cloud") >= 0){
@@ -51,7 +54,8 @@ $(document).ready(function(){
 			}
 			
 		});
-		var googleJSON = $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=" + "AIzaSyAdK12U8IEM2GsHQpQUmadq4Ws5a_Ah0ko", function (data) {
+		//uses the google map api to get location name via reverse geocoding
+		$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=" + "AIzaSyAdK12U8IEM2GsHQpQUmadq4Ws5a_Ah0ko", function (data) {
 				
 				var cityName = data["results"][0]["address_components"][2]["long_name"];
 				var stateName = data["results"][0]["address_components"][4]["short_name"];
@@ -59,11 +63,12 @@ $(document).ready(function(){
 				$("#city-name").text(cityName + ", " + stateName);
 		});
 	}
+	
 	function displayErrorMessage(){
 		$("#main-container").css("visibility", "visible");
 		$("h1").text("Location could not be accessed");	
 	}
-	
+	//converts wind direction from degrees to compass directions
 	function convertDegreesToDirection(windDirectionInDegrees){
 		
 		if((windDirectionInDegrees >= 348.75 && windDirectionInDegrees <= 360) || (windDirectionInDegrees >= 0) && windDirectionInDegrees <= 11.25){
@@ -114,10 +119,6 @@ $(document).ready(function(){
 		else if(windDirectionInDegrees > 326.25 && windDirectionInDegrees <= 348.75){
 			return "NNW";
 		}
-		
-		
 	}
 	
 });
-
-//google map api key= AIzaSyAdK12U8IEM2GsHQpQUmadq4Ws5a_Ah0ko
