@@ -50,7 +50,11 @@ $(document).ready(function(){
 			}else if(weatherDescription.toLowerCase().indexOf("cloud") >= 0){
 				$("body").css("background-image", "url(images/cloudy.jpg)");
 			}else if(weatherDescription.toLowerCase().indexOf("sun") >= 0){
-				$("body").css("background-image", "url(images/sunny.jpg)")
+				$("body").css("background-image", "url(images/sunny.jpg)");
+			}else if(weatherDescription.toLowerCase().indexOf("storm") >= 0){
+				$("body").css("background-image", "url(images/storm.jpg)");
+			}else if(weatherDescription.toLowerCase().indexOf("snow") >= 0){
+				$("body").css("background-image", "url(images/snow.jpg)");
 			}
 			
 		});
